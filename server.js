@@ -16,18 +16,19 @@ console.log(`Sunucu ${PORT} portunda çalışıyor...`);
 io.on('connection', (socket) => {
     console.log('Yeni oyuncu bağlandı:', socket.id);
 
-    // Odada 0 numaralı karakter (1. Oyuncu) var mı kontrol et, varsa yeni gelene 1 (2. Oyuncu) ver
+    // Odadaki mevcut oyuncuların karakter tiplerine bak:
     const existingRoles = Object.values(players).map(p => p.charType);
+    // Odada 0 (Model1) yoksa yeni gelene 0 ver, varsa 1 (Model2) ver:
     const assignedChar = existingRoles.includes(0) ? 1 : 0;
 
-    // 1. Oyuncu solda (-3), 2. Oyuncu sağda (+3) doğsun ki üst üste binmesinler
+    // 1. Oyuncu solda (-2), 2. Oyuncu sağda (+2) doğsun:
     const startX = assignedChar === 0 ? -2 : 2;
 
     players[socket.id] = {
         id: socket.id,
-        charType: assignedChar, // 0 = Karakter A, 1 = Karakter B
+        charType: assignedChar, // <-- İşte eksik olan kısım burasıydı!
         x: startX,
-        y: 0,
+        y: 0, // Yere basmaları için 0 yaptık
         z: 0
     };
 
