@@ -21,13 +21,13 @@ io.on('connection', (socket) => {
     const assignedChar = existingRoles.includes(0) ? 1 : 0;
 
     // 1. Oyuncu solda (-3), 2. Oyuncu sağda (+3) doğsun ki üst üste binmesinler
-    const startX = assignedChar === 0 ? -3 : 3;
+    const startX = assignedChar === 0 ? -2 : 2;
 
     players[socket.id] = {
         id: socket.id,
         charType: assignedChar, // 0 = Karakter A, 1 = Karakter B
         x: startX,
-        y: 1,
+        y: 0,
         z: 0
     };
 
