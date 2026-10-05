@@ -26,10 +26,12 @@ io.on('connection', (socket) => {
 
     players[socket.id] = {
         id: socket.id,
-        charType: assignedChar, // <-- İşte eksik olan kısım burasıydı!
+        charType: assignedChar, 
         x: startX,
-        y: 0, // Yere basmaları için 0 yaptık
-        z: 0
+        y: 0, 
+        z: 0,
+        anim: 'Idle', // YENİ: Başlangıç animasyon durumu
+        rotY: 0       // YENİ: Başlangıç dönüş açısı
     };
 
     socket.emit('initPlayers', { myId: socket.id, players: players });
@@ -40,6 +42,11 @@ io.on('connection', (socket) => {
             players[socket.id].x = data.x;
             players[socket.id].y = data.y;
             players[socket.id].z = data.z;
+            
+            // YENİ EKLENEN KISIM: Gelen animasyon ve dönüş verilerini diğer oyunculara aktar
+            players[socket.id].anim = data.anim;
+            players[socket.id].rotY = data.rotY;
+
             socket.broadcast.emit('playerMoved', players[socket.id]);
         }
     });
